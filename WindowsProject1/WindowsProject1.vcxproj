@@ -150,7 +150,7 @@
     <ClCompile Include="event.cpp" />
     <ClCompile Include="snapshot.cpp" />
     <ClCompile Include="互斥体.cpp" />
-    <ClCompile Include="源.cpp" />
+    <ClCompile Include="firstGUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WindowsProject1.rc" />

@@ -57,7 +57,7 @@
     <ClCompile Include="snapshot.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="源.cpp">
+    <ClCompile Include="firstGUI.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
