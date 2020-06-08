@@ -29,15 +29,29 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 			WS_CHILD | WS_VISIBLE,
 			250,
 			200,
-			200,
-			200,
+			50,
+			30,
 			hwnd,
 			(HMENU)IDC_BUTTON,
 			g_hInstance,
 			NULL
 		);
 		break;
-	case WM_COMMAND: //处理
+	case WM_COMMAND: //处理子窗口给的消息273
+		/*WCHAR szBuffer1[0x80];
+		wsprintf(szBuffer1, L"操作：  %d \n", message);
+		OutputDebugString(szBuffer1);*/
+		switch (LOWORD(wParam))
+		{
+		case IDC_BUTTON:
+			SetDlgItemText(hwnd, IDC_EDIT, L"测试测试");
+			break;
+		//case IDC_EDIT:
+		//	SetDlgItemText(hwnd, IDC_EDIT, TEXT("测试测试"));
+		//	break;
+		default:
+			break;
+		};
 		break;
 
 	case WM_KEYDOWN:
