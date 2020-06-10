@@ -27,6 +27,9 @@
     <ClInclude Include="WindowsProject1.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="MappingFile.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WindowsProject1.rc">
@@ -58,6 +61,12 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="firstGUI.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="MappingFile.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

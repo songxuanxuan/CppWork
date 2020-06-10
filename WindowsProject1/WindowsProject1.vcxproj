@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="framework.h" />
+    <ClInclude Include="MappingFile.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="WindowsProject1.h" />
@@ -148,6 +149,8 @@
     <ClCompile Include="createProcessThread.cpp" />
     <ClCompile Include="chidProcess.cpp" />
     <ClCompile Include="event.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="MappingFile.cpp" />
     <ClCompile Include="snapshot.cpp" />
     <ClCompile Include="互斥体.cpp" />
     <ClCompile Include="firstGUI.cpp" />
