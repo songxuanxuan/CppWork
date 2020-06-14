@@ -24,6 +24,7 @@
     <ProjectGuid>{27e71e68-7c5f-4a41-8b26-e88dc743540a}</ProjectGuid>
     <RootNamespace>DllInject</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>SimpleExp</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

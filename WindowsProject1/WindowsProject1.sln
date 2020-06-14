@@ -11,7 +11,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestApp", "..\TestApp\TestA
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DllExample", "..\DllExample\DllExample.vcxproj", "{8CEFCE03-74E0-4FF5-B2CE-6EA2D36BFF23}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DllInject", "..\DllInject\DllInject.vcxproj", "{27E71E68-7C5F-4A41-8B26-E88DC743540A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SimpleExp", "..\DllInject\DllInject.vcxproj", "{27E71E68-7C5F-4A41-8B26-E88DC743540A}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "InjectDll", "..\InjectDll\InjectDll.vcxproj", "{EBAA6C6E-E540-4C82-B6F7-02E58768C07A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +63,14 @@ Global
 		{27E71E68-7C5F-4A41-8B26-E88DC743540A}.Release|x64.Build.0 = Release|x64
 		{27E71E68-7C5F-4A41-8B26-E88DC743540A}.Release|x86.ActiveCfg = Release|Win32
 		{27E71E68-7C5F-4A41-8B26-E88DC743540A}.Release|x86.Build.0 = Release|Win32
+		{EBAA6C6E-E540-4C82-B6F7-02E58768C07A}.Debug|x64.ActiveCfg = Debug|x64
+		{EBAA6C6E-E540-4C82-B6F7-02E58768C07A}.Debug|x64.Build.0 = Debug|x64
+		{EBAA6C6E-E540-4C82-B6F7-02E58768C07A}.Debug|x86.ActiveCfg = Debug|Win32
+		{EBAA6C6E-E540-4C82-B6F7-02E58768C07A}.Debug|x86.Build.0 = Debug|Win32
+		{EBAA6C6E-E540-4C82-B6F7-02E58768C07A}.Release|x64.ActiveCfg = Release|x64
+		{EBAA6C6E-E540-4C82-B6F7-02E58768C07A}.Release|x64.Build.0 = Release|x64
+		{EBAA6C6E-E540-4C82-B6F7-02E58768C07A}.Release|x86.ActiveCfg = Release|Win32
+		{EBAA6C6E-E540-4C82-B6F7-02E58768C07A}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
