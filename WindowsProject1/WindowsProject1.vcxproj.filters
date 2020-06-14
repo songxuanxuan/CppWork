@@ -30,6 +30,12 @@
     <ClInclude Include="MappingFile.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="useDll.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WindowsProject1.rc">
@@ -67,6 +73,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="MappingFile.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="useDll.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

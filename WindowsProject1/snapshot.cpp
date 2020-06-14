@@ -1,6 +1,7 @@
 #include <Windows.h>
 #include <TlHelp32.h>
 #include <stdio.h>
+#include "stdafx.h"
 
 int main123()
 {

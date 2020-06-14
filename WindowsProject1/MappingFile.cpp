@@ -1,1 +1,1 @@
-#include "MappingFile.h"
+#include "stdafx.h"

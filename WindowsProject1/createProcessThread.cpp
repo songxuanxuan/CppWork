@@ -1,5 +1,4 @@
-﻿#include <Windows.h>
-#include <stdio.h>
+﻿#include "stdafx.h"
 
 DWORD WINAPI ThreadPlus(LPVOID lpParameter)
 {

@@ -1,5 +1,4 @@
-#include <Windows.h>
-#include <stdio.h>
+#include "stdafx.h"
 
 HANDLE g_hEvent;
 int g_Max = 10;

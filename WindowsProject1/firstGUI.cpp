@@ -1,5 +1,5 @@
-#include <Windows.h>
-#include <stdio.h>
+
+#include "stdafx.h"
 
 #define IDC_EDIT 0x100
 #define IDC_BUTTON 0x101
