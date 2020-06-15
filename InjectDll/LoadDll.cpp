@@ -26,6 +26,7 @@ int LoadDll(DWORD dwProcessId, char* szDllPathName)
 
 	//获取进程句柄  openProcess()
 	hProcess = OpenProcess(PROCESS_ALL_ACCESS, 0, dwProcessId);
+
 	if (hProcess == NULL)
 	{
 		printf("OpenProcess failure  \n");
@@ -34,6 +35,7 @@ int LoadDll(DWORD dwProcessId, char* szDllPathName)
 	//计算dll路径的长度，并加上字符串后面0的长度 strlen() + 1
 	//dwLength = strlen(szDllPathName) + 1;
 	dwLength = sizeof(szDllPathName);
+
 	//在目标进程分配内存，用于写入dll  VirtualAllocEx()
 	ipAllocAddr = VirtualAllocEx(hProcess, NULL, dwLength, MEM_COMMIT, PAGE_EXECUTE_READWRITE);
 	if (ipAllocAddr == NULL)
@@ -42,6 +44,7 @@ int LoadDll(DWORD dwProcessId, char* szDllPathName)
 		CloseHandle(hProcess);
 		return 0;
 	}
+	
 	//拷贝dll路径到目标进程内存   WriteProcessMemory()
 	bRet = WriteProcessMemory(hProcess, ipAllocAddr, szDllPathName, dwLength, NULL);
 	if (!bRet)
@@ -50,6 +53,7 @@ int LoadDll(DWORD dwProcessId, char* szDllPathName)
 		CloseHandle(hProcess);
 		return 0;
 	}
+	
 	//获取(当前系统)模块（kernel32.dll）地址  GetModuleHandle()
 	hModule = GetModuleHandle(L"kernel32.dll");
 	if (!hModule)
@@ -58,17 +62,22 @@ int LoadDll(DWORD dwProcessId, char* szDllPathName)
 		CloseHandle(hProcess);
 		return 0;
 	}
+	
 	//获取(当前系统)loadlibraryA地址 GetProcAddress()  只要在同一个操作系统，内核地址都一样 
 	//注意dword只有16位，需要32位的地址来存，用函数制定的FARPROC，否则地址不对
 	dwLoadAddr = (LPTHREAD_START_ROUTINE)GetProcAddress(hModule, "LoadLibraryW");
+
 	if (!dwLoadAddr)
 	{
 		printf("GetProcAddress failure  \n");
 		CloseHandle(hProcess);
 		return 0;
 	}
+	LPDWORD threadId = 0;
+	hThread = CreateThread(NULL, 0, ThreadFunc, NULL, 0, threadId);
+	DWORD test = GetLastError();
 	//创建远程线程 调用loadlibraryA加载dll    CreateRemoteThread()  (LPTHREAD_START_ROUTINE)dwLoadAddr
-	hThread = CreateRemoteThread(hProcess, NULL, 0, dwLoadAddr, ipAllocAddr, 0, NULL);
+	//hThread = CreateRemoteThread(hProcess, NULL, 0, dwLoadAddr, ipAllocAddr, 0, NULL);
 	if (!hThread)
 	{
 		printf("CreateRemoteThread failure  \n");
@@ -104,10 +113,12 @@ DWORD FindAProcessByName(WCHAR* processName)
 
 int main()
 {
-	/*WCHAR procName[] = L"SimpleExp.exe";
+	WCHAR procName[] = L"SimpleExp.exe";
 	WCHAR dwPid = FindAProcessByName(procName);
 	char path[] = "../DllExample/x64/Debug/DllExample.dll";
-	LoadDll(dwPid, path);*/
+	LoadDll(dwPid, path);
+
+
 	//std::string s;
 	//std::ifstream iFile;
 	//iFile.open("../DllExample/x64/Debug/DllExample.dll");
@@ -115,9 +126,6 @@ int main()
 	//printf("%s   \n", s);
 	//iFile.close();
 
-	LPDWORD threadId = 0;
-	CreateThread(NULL, 0, ThreadFunc, NULL, 0, threadId);
-	DWORD test = GetLastError();
 	
 	getchar();
 	return 0;
