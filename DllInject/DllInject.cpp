@@ -4,17 +4,14 @@
 #include <Windows.h>
 #include <stdio.h>
 #include <synchapi.h>
+#include <iostream>
 
 
 
-int  main()
+int main()
 {
-    for (int i = 0; i < 10; i++)
-    {
-
-        printf("+++++++++++ \n");
-        Sleep(1000);
-    }
+    
+    printf("源程序———————— \n");
     getchar();
 }
 
