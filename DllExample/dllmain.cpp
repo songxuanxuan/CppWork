@@ -1,25 +1,35 @@
 ﻿// dllmain.cpp : 定义 DLL 应用程序的入口点。
 #include <Windows.h>
 #include <stdio.h>
+#define _ONE_ 0x11111111 
+#define _TWO_ 0x11111112 
+#define _MYMAP_ L"myMap" 
+DWORD WINAPI ThreadFunc(LPVOID p)
+{
+    LPWSTR ipBuffer;
+    WCHAR dwType;
+    HANDLE g_hMapFile;
+    g_hMapFile = OpenFileMapping(FILE_MAP_ALL_ACCESS, FALSE,(LPWSTR) _MYMAP_);
+    ipBuffer = (LPWSTR)MapViewOfFile(g_hMapFile, FILE_MAP_ALL_ACCESS, 0, 0, BUFSIZ);
+    while (true)
+    {
+        if (dwType != NULL)
+        {
+            CopyMemory(&dwType, ipBuffer, 4);
+        }
+        if (dwType == 1)
+        {
+            _asm {
+                mov eax, _ONE_
+                call eax;
+            }
+            CopyMemory(ipBuffer, &dwType, 4);
+        }
+    }
+    
+    return 0;
+};
 
-DWORD WINAPI ThreadProc(DWORD dWord)
-{
-    for (int i = 0; i < 2; i++)
-    {
-        printf("inject ------------>DLL_THREAD_ATTACH \n");
-        Sleep(1000);
-    }
-    return 0;
-}
-DWORD WINAPI ThreadProc2(DWORD dWord)
-{
-    for (int i = 0; i < 2; i++)
-    {
-        printf("inject ------------> DLL_PROCESS_ATTACH \n");
-        Sleep(1000);
-    }
-    return 0;
-}
 
 BOOL APIENTRY DllMain( HMODULE hModule,
                        DWORD  ul_reason_for_call,

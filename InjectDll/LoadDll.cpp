@@ -4,11 +4,12 @@
 #include <fstream>
 #include <string>
 
-DWORD WINAPI ThreadFunc(LPVOID p) 
+static DWORD WINAPI ThreadFunc(LPVOID p)
 {
-	printf("-----");
+	printf("XXXXXXXX");
 	return 0;
-};
+}
+static void EndThreadFunc(void) { return; }
 
 int LoadDll(DWORD dwProcessId, char* szDllPathName)
 {
@@ -33,8 +34,8 @@ int LoadDll(DWORD dwProcessId, char* szDllPathName)
 		return 0;
 	}
 	//计算dll路径的长度，并加上字符串后面0的长度 strlen() + 1
-	//dwLength = strlen(szDllPathName) + 1;
-	dwLength = sizeof(szDllPathName);
+	dwLength = strlen(szDllPathName) + 1;
+	//dwLength = ((LPBYTE)EndThreadFunc - (LPBYTE)ThreadFunc);  //获取函数长度能不能实现？？
 
 	//在目标进程分配内存，用于写入dll  VirtualAllocEx()
 	ipAllocAddr = VirtualAllocEx(hProcess, NULL, dwLength, MEM_COMMIT, PAGE_EXECUTE_READWRITE);
@@ -45,7 +46,7 @@ int LoadDll(DWORD dwProcessId, char* szDllPathName)
 		return 0;
 	}
 	
-	//拷贝dll路径到目标进程内存   WriteProcessMemory()
+	//拷贝dll路径到目标进程内存   WriteProcessMemory() ipAllocAddr, szDllPathName,dwLength
 	bRet = WriteProcessMemory(hProcess, ipAllocAddr, szDllPathName, dwLength, NULL);
 	if (!bRet)
 	{
@@ -65,7 +66,7 @@ int LoadDll(DWORD dwProcessId, char* szDllPathName)
 	
 	//获取(当前系统)loadlibraryA地址 GetProcAddress()  只要在同一个操作系统，内核地址都一样 
 	//注意dword只有16位，需要32位的地址来存，用函数制定的FARPROC，否则地址不对
-	dwLoadAddr = (LPTHREAD_START_ROUTINE)GetProcAddress(hModule, "LoadLibraryW");
+	dwLoadAddr = (LPTHREAD_START_ROUTINE)GetProcAddress(hModule, "LoadLibraryA");
 
 	if (!dwLoadAddr)
 	{
@@ -73,11 +74,17 @@ int LoadDll(DWORD dwProcessId, char* szDllPathName)
 		CloseHandle(hProcess);
 		return 0;
 	}
-	LPDWORD threadId = 0;
-	hThread = CreateThread(NULL, 0, ThreadFunc, NULL, 0, threadId);
-	DWORD test = GetLastError();
+	
 	//创建远程线程 调用loadlibraryA加载dll    CreateRemoteThread()  (LPTHREAD_START_ROUTINE)dwLoadAddr
-	//hThread = CreateRemoteThread(hProcess, NULL, 0, dwLoadAddr, ipAllocAddr, 0, NULL);
+	hThread = CreateRemoteThread(hProcess, NULL, 0, dwLoadAddr, ipAllocAddr, 0, NULL);
+
+
+	//hThread = CreateRemoteThread(hProcess, NULL, 0, (LPTHREAD_START_ROUTINE)ipAllocAddr, NULL, 0, NULL);
+	//LPDWORD threadId = 0;
+	//hThread = CreateThread(NULL, 0, ThreadFunc, NULL, 0, threadId);
+
+
+	DWORD test = GetLastError();
 	if (!hThread)
 	{
 		printf("CreateRemoteThread failure  \n");
@@ -89,6 +96,7 @@ int LoadDll(DWORD dwProcessId, char* szDllPathName)
 	CloseHandle(hProcess);
 	return 1;
 }
+
 
 DWORD FindAProcessByName(WCHAR* processName)
 {
@@ -111,11 +119,17 @@ DWORD FindAProcessByName(WCHAR* processName)
 	return dwPid;
 }
 
+void ShareMem()
+{
+
+}
+
 int main()
 {
 	WCHAR procName[] = L"SimpleExp.exe";
 	WCHAR dwPid = FindAProcessByName(procName);
-	char path[] = "../DllExample/x64/Debug/DllExample.dll";
+	//char path[] = "../DllExample/x64/Debug/DllExample.dll";
+	char path[] = "E:\\CppWork\\DllExample\\x64\\Debug\\DllExample.dll";
 	LoadDll(dwPid, path);
 
 
