@@ -3,6 +3,7 @@
 #include <TlHelp32.h>
 #include <fstream>
 #include <string>
+#define _MYMAP_ L"MYMAP" 
 
 static DWORD WINAPI ThreadFunc(LPVOID p)
 {
@@ -119,19 +120,36 @@ DWORD FindAProcessByName(WCHAR* processName)
 	return dwPid;
 }
 
-void ShareMem()
-{
+LPTSTR ipBuffer;
+HANDLE g_hMapFile;
 
+int Init()
+{
+	g_hMapFile = CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, 0x100, _MYMAP_);
+	if (g_hMapFile == NULL) return 0;
+	ipBuffer = (LPTSTR)MapViewOfFile(g_hMapFile, FILE_MAP_ALL_ACCESS, 0, 0, BUFSIZ);
+	if (ipBuffer == NULL) return 0;
+	return 1;
 }
 
 int main()
 {
+	DWORD dwOrderList[8] = { 1,1,1,2,2,2,1,3 };
 	WCHAR procName[] = L"SimpleExp.exe";
 	WCHAR dwPid = FindAProcessByName(procName);
 	//char path[] = "../DllExample/x64/Debug/DllExample.dll";
 	char path[] = "E:\\CppWork\\DllExample\\x64\\Debug\\DllExample.dll";
-	LoadDll(dwPid, path);
+	//LoadDll(dwPid, path);
 
+	if (Init())
+	{
+		LoadDll(dwPid, path);
+		for (int i = 0; i < 8; i++)
+		{
+			CopyMemory(ipBuffer, &dwOrderList[i], 4);
+			Sleep(2000);
+		}
+	}
 
 	//std::string s;
 	//std::ifstream iFile;

@@ -6,11 +6,11 @@
 #include <synchapi.h>
 #include <iostream>
 
-void getOne()
+static void getOne()
 {
 	printf("1111-----\n");
 }
-void getTwo()
+static void getTwo()
 {
 	printf("2222-----\n");
 }
