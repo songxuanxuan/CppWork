@@ -138,15 +138,17 @@ int main()
 	WCHAR procName[] = L"SimpleExp.exe";
 	WCHAR dwPid = FindAProcessByName(procName);
 	//char path[] = "../DllExample/x64/Debug/DllExample.dll";
-	char path[] = "E:\\CppWork\\DllExample\\x64\\Debug\\DllExample.dll";
+	char path[] = "E:\\CppWork\\DllExample\\Debug\\DllExample.dll";
 	//LoadDll(dwPid, path);
+	DWORD dwTmp = 0;
 
 	if (Init())
 	{
 		LoadDll(dwPid, path);
 		for (int i = 0; i < 8; i++)
 		{
-			CopyMemory(ipBuffer, &dwOrderList[i], 4);
+			dwTmp = dwOrderList[i];
+			CopyMemory(ipBuffer, &dwTmp, 4);
 			Sleep(2000);
 		}
 	}

@@ -1,24 +1,28 @@
 ﻿// dllmain.cpp : 定义 DLL 应用程序的入口点。
 #include <Windows.h>
 #include <stdio.h>
-#define _ONE_ 0x00007FF6A6031810 
-#define _TWO_ 0x00007FF6A6031860 
+#define _ONE_ 0x00BC17E0
+#define _TWO_ 0x00BC1840 
 #define _MYMAP_ L"MYMAP" 
 DWORD WINAPI ThreadFunc(LPVOID p)
 {
     LPWSTR ipBuffer;
-    WCHAR dwType;
+    WCHAR dwType = 1;
     HANDLE g_hMapFile;
     g_hMapFile = OpenFileMapping(FILE_MAP_ALL_ACCESS, FALSE,(LPWSTR) _MYMAP_);
     ipBuffer = (LPWSTR)MapViewOfFile(g_hMapFile, FILE_MAP_ALL_ACCESS, 0, 0, BUFSIZ);
+    
     while (true)
     {
-        if (dwType != NULL)
+        
+        if (dwType == NULL)
         {
+            printf("0000dwtype = %d \n", dwType);
             CopyMemory(&dwType, ipBuffer, 4);
         }
         if (dwType == 1)
         {
+            printf("1111dwtype = %d \n", dwType);
             _asm {
                 mov eax, _ONE_;
                 call eax;
@@ -39,7 +43,7 @@ DWORD WINAPI ThreadFunc(LPVOID p)
         {
             FreeLibraryAndExitThread((HMODULE)g_hMapFile, 0);
         }
-        Sleep(1000);
+        Sleep(500);
     }
     
     return 0;
@@ -54,11 +58,11 @@ BOOL APIENTRY DllMain( HMODULE hModule,
     switch (ul_reason_for_call)
     {
     case DLL_PROCESS_ATTACH:
-        printf("+++++");
+        printf("+++++ \n");
         CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)ThreadFunc, NULL, 0, NULL);
         break;
     case DLL_THREAD_ATTACH:
-        printf("------");
+        
         //CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)ThreadProc, NULL, 0, NULL);
         break;
     case DLL_THREAD_DETACH:
